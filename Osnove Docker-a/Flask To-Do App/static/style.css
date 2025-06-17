@@ -1,0 +1,10 @@
+.completed {
+  text-decoration: line-through;
+  color: #6c757d;
+  background-color: #f8f9fa;
+}
+
+body {
+  background: linear-gradient(to right, #dee2ff, #e2eafc);
+  min-height: 100vh;
+}
