@@ -1,0 +1,45 @@
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend/demoCRUD
+    ports:
+      - "5000:8080"
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=server=mysql;port=3306;database=mydb;user=myuser;password=mypassword;
+    working_dir: /app
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80"
+    restart: always
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

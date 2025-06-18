@@ -1,0 +1,93 @@
+/* Osnovni stilovi za telo i kontejner */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+div {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Naslovi */
+h1, h2 {
+  color: #222;
+  margin-bottom: 1.5rem;
+}
+
+/* Tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background-color: #e3f2fd;
+  cursor: pointer;
+}
+
+/* Forma */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+input {
+  padding: 10px 12px;
+  margin-bottom: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #1976d2;
+  outline: none;
+}
+
+/* Dugme */
+button {
+  padding: 12px 20px;
+  margin: 5px 5px;
+  font-size: 1rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #1565c0;
+}
+
+/* Poruka za učitavanje */
+p {
+  font-style: italic;
+  color: #555;
+}
