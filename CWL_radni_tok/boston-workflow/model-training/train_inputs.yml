@@ -1,0 +1,7 @@
+input_csv:
+  class: File
+  path: ../data-cleaning/cleaned.csv
+
+target_col: "MEDV"
+train_percent: 80
+output_json: metrics.json
