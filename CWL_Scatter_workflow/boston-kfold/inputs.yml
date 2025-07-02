@@ -1,0 +1,6 @@
+csv_path:
+  class: File
+  path: boston.csv
+
+target_col: MEDV
+k: 10
