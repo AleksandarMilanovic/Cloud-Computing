@@ -1,0 +1,50 @@
+
+# Glavni YAML fajl za kreiranje K-Fold job-ova u Kubernetesu
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fold-job-$FOLD_INDEX
+  namespace: aleksandarm
+spec:
+  template:
+    spec:
+      containers:
+      - name: fold-train
+        image: aleksandarmilanovic/fold-train:latest
+        imagePullPolicy: Always
+        command: ["python"]
+        args:
+          - "/app/fold_train.py"
+          - "$(CSV_PATH)"
+          - "$(TARGET_COL)"
+          - "$(K)"
+          - "$(FOLD_INDEX)"
+          - "/data/fold_$(FOLD_INDEX).json"
+        env:
+        - name: CSV_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: kfold-config
+              key: CSV_PATH
+        - name: TARGET_COL
+          valueFrom:
+            configMapKeyRef:
+              name: kfold-config
+              key: TARGET_COL
+        - name: K
+          valueFrom:
+            configMapKeyRef:
+              name: kfold-config
+              key: K
+        - name: FOLD_INDEX
+          value: "$FOLD_INDEX"
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
+      restartPolicy: Never
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: /home/aleksandarm/datasets #konkretna putanja do boston.csv fajla na klasteru
+  backoffLimit: 2

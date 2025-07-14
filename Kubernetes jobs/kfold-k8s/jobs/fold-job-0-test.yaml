@@ -1,0 +1,52 @@
+
+# Fajl za testiranje funkcionalnosti jednog job-a u Kubernetesu
+# Ovaj job je primer kako bi izgledao job za prvi fold u K-Fold validaciji
+# Koristi se template iz fold-job-template.yaml sa konkretnim vrednostima za argumente args
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fold-job-0
+  namespace: aleksandarm
+spec:
+  template:
+    spec:
+      containers:
+      - name: fold-train
+        image: aleksandarmilanovic/fold-train:latest
+        imagePullPolicy: Always
+        command: ["python"]
+        args:
+          - "/app/fold_train.py"
+          - "data/boston.csv"
+          - "MEDV"
+          - "10"
+          - "0"
+          - "/data/fold_0.json"
+        env:
+        - name: CSV_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: kfold-config
+              key: CSV_PATH
+        - name: TARGET_COL
+          valueFrom:
+            configMapKeyRef:
+              name: kfold-config
+              key: TARGET_COL
+        - name: K
+          valueFrom:
+            configMapKeyRef:
+              name: kfold-config
+              key: K
+        - name: FOLD_INDEX
+          value: "0"
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
+      restartPolicy: Never
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: /home/aleksandarm/datasets
+  backoffLimit: 2

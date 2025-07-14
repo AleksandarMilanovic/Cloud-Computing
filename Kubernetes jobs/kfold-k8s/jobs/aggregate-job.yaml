@@ -1,0 +1,44 @@
+
+# Posao za agregaciju rezultata K-fold validacije
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: aggregate-job
+  namespace: aleksandarm
+spec:
+  template:
+    spec:
+      containers:
+      - name: aggregate
+        image: aleksandarmilanovic/aggregate:latest
+        imagePullPolicy: Always
+        command: ["python"]
+        args:
+          - "/app/aggregate_metrics.py"
+          - "/data/fold_0.json"
+          - "/data/fold_1.json"
+          - "/data/fold_2.json"
+          - "/data/fold_3.json"
+          - "/data/fold_4.json"
+          - "/data/fold_5.json"
+          - "/data/fold_6.json"
+          - "/data/fold_7.json"
+          - "/data/fold_8.json"
+          - "/data/fold_9.json"
+          - "/data/summary.json"
+        env:
+        - name: K
+          valueFrom:
+            configMapKeyRef:
+              name: kfold-config
+              key: K
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
+      restartPolicy: Never
+      volumes:
+      - name: data-volume
+        hostPath:
+          path: /home/aleksandarm/datasets
+  backoffLimit: 2
