@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wine-flask-app
+  namespace: aleksandarm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wine-flask-app
+  template:
+    metadata:
+      labels:
+        app: wine-flask-app
+    spec:
+      containers:
+      - name: wine-flask-container
+        image: aleksandarmilanovic/wine-flask-app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: wine-data
+          mountPath: /app/data   
+      volumes:
+      - name: wine-data
+        persistentVolumeClaim:
+          claimName: wine-pvc
