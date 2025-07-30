@@ -1,0 +1,6 @@
+U svrhu izrade domaćeg zadatka korišćen je već postojeći repozitorijum https://github.com/bkatwal/zookeeper-demo. Cilj je bio implementirati distribuirani sistem za čuvanje jednog ML modela u klasteru servera, gde će svaki server imati svoju kopiju datog ML modela, koja je sinhronizovana sa ostalim serverima. Modifikovana je ZookeeperDemoController.java klasa tako što su dodate dve nove metode:
+
+1. Put (Update model) – vrši zamenu modela tako što prihvata novi CSV fajl sa trening podacima i trenira novi model, koji ažurira na svim serverima u klasteru,
+2. Get (Predict) – za prosleđeni niz parametara u JSON formatu, vraća predikciju odgovarajućeg modela sa bilo kojeg servera. 
+
+Za obuku klasifikacionog modela korišćen je skup podataka "Wine Quality Data Set (Red & White Wine)" preuzet sa Kaggle platforme https://www.kaggle.com/datasets/ruthgn/wine-quality-data-set-red-white-wine.
